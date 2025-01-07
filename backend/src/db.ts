@@ -16,6 +16,6 @@ export const userModel = model("User", userSchema);
 
 const accountSchema = new Schema({
     userId: { type: objectId, required: true, ref: "User"},
-    balance: number
+    balance: { type: Number, required: true}
 })
 export const accountModel = model("Account", accountSchema);

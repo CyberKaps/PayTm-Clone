@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from 'zod'
 import jwt from 'jsonwebtoken'
-import { userModel } from "../db";
+import { accountModel, userModel } from "../db";
 import { userMiddleware } from "../userMiddleware";
 
 export const userRouter = Router();
@@ -32,21 +32,35 @@ userRouter.post("/signup", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
+
+
     try {
-        await userModel.create({
+        
+        const user = await userModel.create({
             firstName,
             lastName,
             email,
             password
         })
-        res.json({
-            msg: "sign up endpoint"
+        
+        const userId = user._id;
+
+        const balance = await accountModel.create({
+            userId,
+            balance: 1 + Math.random() * 10000
         })
+
+        res.json({
+            msg: "sign up succeed",
+            Balance: balance
+        })
+
     } catch(e) {
         res.status(411).json({
             message: "User already exist"
         })
     }
+
 })
 
 userRouter.post("/signin", async (req, res) => {
