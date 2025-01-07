@@ -97,3 +97,32 @@ userRouter.post("/signin", async (req, res) => {
 })
 
 
+userRouter.get("/bulk", userMiddleware, async (req,res) => {
+    const filter = req.query.filter || "";
+    
+    const users = await userModel.find({
+        $or: [{
+            firstName: {
+                "$regex": filter
+            }
+        }, {
+            lastName: {
+                "$regex": filter
+            }
+        }, {
+            email: {
+                "$regex": filter
+            }
+        }]
+    })
+
+    res.json({
+        user:users.map(user => ({
+
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            _id: user._id
+        }))
+    })
+})
