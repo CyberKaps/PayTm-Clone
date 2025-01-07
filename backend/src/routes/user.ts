@@ -96,6 +96,31 @@ userRouter.post("/signin", async (req, res) => {
 
 })
 
+userRouter.put("/updateuser", userMiddleware, async (req, res) => {
+
+    const updateBody = z.object({
+        firstName: z.string().min(3).max(100).optional(),
+        lastName: z.string().min(3).max(100).optional(),
+        email: z.string().min(3).max(100).email().optional(),
+        password: z.string().min(3).max(20).optional(),
+    })
+
+    const { success } = updateBody.safeParse(req.body)
+    if (!success) {
+        res.status(411).json({
+            message: "Error while updating information"
+        })
+    }
+        //@ts-ignore
+		await userModel.updateOne({ _id: req.userId }, req.body);
+	
+    res.json({
+        message: "Updated successfully"
+    })
+
+
+})
+
 
 userRouter.get("/bulk", userMiddleware, async (req,res) => {
     const filter = req.query.filter || "";
