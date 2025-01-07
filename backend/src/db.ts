@@ -1,15 +1,15 @@
 import mongoose, { model, Schema } from "mongoose";
 
-mongoose.connect("");
+// mongoose.connect("");
 
 const objectId = mongoose.Types.ObjectId;
 
 const userSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
-    username: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true},
     password: { type: String, required: true}
 })
 
 
-export const userModel = model("users", userSchema)
+export const userModel = model("User", userSchema)
