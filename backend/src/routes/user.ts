@@ -52,7 +52,7 @@ userRouter.post("/signup", async (req, res) => {
 
         res.json({
             msg: "sign up succeed",
-            Balance: balance
+            // Balance: balance
         })
 
     } catch(e) {
@@ -91,12 +91,12 @@ userRouter.post("/signin", async (req, res) => {
     })
 
     if(user){
-        if(!process.env.JWT_Password){
+        if(!process.env.JWT_PASSWORD){
             throw new Error('JWT_PASSWORD is not defined in environment variables');
         }
         const token = jwt.sign({
             id:user._id
-        }, process.env.JWT_Password)
+        }, process.env.JWT_PASSWORD)
 
         res.json({
             token

@@ -7,6 +7,7 @@ export function userMiddleware(req: Request, res: Response, next: NextFunction) 
     if(!process.env.JWT_PASSWORD){
         throw new Error("JWT_PASSWORD is not present ")
     }
+    
     const token = req.headers['authorization'];
 
 
